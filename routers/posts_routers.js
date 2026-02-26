@@ -10,7 +10,11 @@ router.get("/", postController.index);
 router.get ("/:id", postController.show);
 
 //store
-router.post ("/", postController.store);
+router.post ("/", (req, res) => {
+console.log("hai richiesto di CREARE un nuovo post", req.body);
+res.send("hai richiesto di CREARE un nuovo post");
+});
+
 
 //update
 router.put("/:id", postController.update);
