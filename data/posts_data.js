@@ -1,16 +1,10 @@
-const express= require("express");
-const router = express.Router();
-
-// index
-
-router.get("/", (req, res) => {
-
-   const post =
+const post =
         [
             {
+                id: 1,
                 titolo: "fumetti",
                 contenuto: "i fumetti più attuali",
-                immagine: "/express-blog-intro/public",
+                immagine: "posts/fumetti",
                 tags: array = [
                     "fumetti",
                     "popolari",
@@ -19,9 +13,10 @@ router.get("/", (req, res) => {
             },
 
             {
+                id: 2,
                 titolo: "cibo",
                 contenuto: "i migliori cibi",
-                immagine: "url",
+                immagine: "posts/cibo",
                 tags: array = [
                     "cibi",
                     "popolari",
@@ -30,9 +25,10 @@ router.get("/", (req, res) => {
             },
 
             {
+                id: 3,
                 titolo: "macchine",
                 contenuto: "le macchine più veloci",
-                immagine: "url",
+                immagine: "posts/macchine",
                 tags: array = [
                     "macchine",
                     "popolari",
@@ -41,9 +37,10 @@ router.get("/", (req, res) => {
             },
 
             {
+                id: 4,
                 titolo: "videogiochi",
                 contenuto: "i migliori videogiochi",
-                immagine: "url",
+                immagine: "posts/videogiochi",
                 tags: array = [
                     "videogiochi",
                     "popolari",
@@ -52,9 +49,10 @@ router.get("/", (req, res) => {
             },
 
             {
+                id: 5,
                 titolo: "film",
                 contenuto: "i film più belli",
-                immagine: "url",
+                immagine: "posts/film",
                 tags: array = [
                     "film",
                     "popolari",
@@ -63,37 +61,5 @@ router.get("/", (req, res) => {
 
             }
         ];
-        res.json(post);
-})
 
-
-
-
-
-//show
-router.get ("/:id", (req, res) => {
-    res.send(`hai richiesto di MOSTRARE l'id del post con id: ${req.params.id}`);
-})
-
-//store
-router.post ("/", (req, res) => {
-    res.send("hai richiesto di CREARE un nuovo post");
-})
-
-//update
-router.put("/:id", (req, res)=> {
-    res.send(`hai richiesto di AGGIORNARE (completamente) il post con id: ${req.params.id}`);
-})
-
-//modify
-router.patch("/:id", (req, res) => {
-    res.send(`hai richiesto di MODIFICARE il post con id: ${req.params.id}`);
-})
-
-//destroy
-router.delete("/:id", (req, res) => {
-    res.send(`hai richiesto di CANCELLARE il post con id: ${req.params.id}`);
-})
-
-
-module.exports = router;
+        module.exports = post

@@ -1,7 +1,7 @@
 console.log("ciao mondo");
 
 const express = require("express") 
-const postsRouter = require("./routers/posts");
+const postsRouter = require("./routers/posts_routers");
 
 const app = express()
 const port = 3000
