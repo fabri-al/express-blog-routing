@@ -6,6 +6,6 @@
 
   
    "scripts": {
-    "dev" : "node --watch app.js"
+    "dev" : "node --watch api.js"
    }
 }

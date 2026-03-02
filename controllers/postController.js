@@ -5,10 +5,10 @@ const router = express.Router();
 const postController = require("../controllers/postController")
 
 function index(req, res) {
-    /* res.json(post); */
-
+    
     let risultato = lista;
 
+   /*  provaMiddleware.perErrore(); */
 
     if (req.query.tags) {
         risultato = lista.filter(post => post.tags.includes(req.query.tags));
@@ -72,7 +72,7 @@ function update(req, res) {
 }
 
 function modify(req, res) {
-    /* res.send(`hai richiesto di MODIFICARE il post con id: ${req.params.id}`); */
+    
      const id = Number(req.params.id);
 
     if (isNaN(id)) {
@@ -124,8 +124,6 @@ function destroy(req, res) {
 	return res.sendStatus(204);
     
 }
-
-
 
 const controller = {
 

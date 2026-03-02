@@ -1,7 +1,8 @@
 const express= require("express");
 const router = express.Router();
 const posts = require("../data/posts_data");
-const postController = require("../controllers/postController")
+const postController = require("../controllers/postController");
+const controllaOrario = require("../middleware/controllaOrario");
 
 // index
 router.get("/", postController.index);
