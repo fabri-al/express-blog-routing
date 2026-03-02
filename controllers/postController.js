@@ -1,31 +1,49 @@
 
-const post = require("../data/posts_data");
+const lista = require("../data/posts_data");
 const express= require("express");
 const router = express.Router();
 const postController = require("../controllers/postController")
 
 function index(req, res) {
-    res.json(post);
+    /* res.json(post); */
+
+    let risultato = lista;
+
+
+    if (req.query.tags) {
+        risultato = lista.filter(post => post.tags.includes(req.query.tags));
+    }
 }
 
 function show(req, res) {
-    res.json(post[req.params.id]);
-    res.send(`hai richiesto di MOSTRARE l'id del post con id: ${req.params.id}`);
+    const id = Number(req.params.id);
+
+    if (isNaN(id)) {
+        return res.status(400).json({ errore: "user error", messaggio: "id non valido" });
+    }
+
+    const risultato = lista.find(post => post.id == id);
+    
+    if (!risultato) {
+        
+        return res.status(404).json({ errore: "non trovato", messaggio: "post non trovato" });
+	}
+
+    return res.json(risultato);
 }
 
 function store(req, res) {
 
 	const newPost = {
 		
-        id: post[post.length-1].id +1,
+        id: lista[lista.length-1].id +1,
 		titolo: req.body.titolo,
 		contenuto: req.body.contenuto,
-		
+		tags: req.body.tags
 	};
     
-	post.push(newPost);
-    console.log("array:", post)
-
+	lista.push(newPost);
+  
 	return res.status(201).json(newPost)
     
 }
@@ -39,7 +57,7 @@ function update(req, res) {
         return res.status(400).json({errore: "user error", messaggio: "id non valido"})
     }
 
-    const risultato = post.find(post => post.id == id);
+    const risultato = lista.find(post => post.id == id);
 
     if (!risultato) {
         return res.status(404).json({ errore: "non trovato", messaggio: "post non trovato"});
@@ -54,7 +72,34 @@ function update(req, res) {
 }
 
 function modify(req, res) {
-    res.send(`hai richiesto di MODIFICARE il post con id: ${req.params.id}`);
+    /* res.send(`hai richiesto di MODIFICARE il post con id: ${req.params.id}`); */
+     const id = Number(req.params.id);
+
+    if (isNaN(id)) {
+        
+        return res.status(400).json({errore: "user error", messaggio: "id non valido"})
+    }
+
+    const risultato = lista.find(post => post.id == id);
+
+    if (!risultato) {
+        return res.status(404).json({ errore: "non trovato", messaggio: "post non trovato"});
+    }
+
+    if (req.body.titolo !== undefined) {
+        risultato.titolo = req.body.titolo;
+    }
+
+    if (req.body.contenuto !== undefined) {
+        risultato.contenuto = req.body.contenuto;
+    }
+
+    if (req.body.tags !== undefined) {
+        risultato.tags = req.body.tags;
+    }
+
+return res.json(risultato);
+
 }
 
 function destroy(req, res) {
@@ -65,38 +110,21 @@ function destroy(req, res) {
         return res.status(400).json({ errore: "user error", messaggio: "id non valido" });
     }
 
-    const risultato = post.find(post => post.id == id);
+    const risultato = lista.find(post => post.id == id);
     
     if (!risultato) {
         
         return res.status(404).json({ errore: "non trovato", messaggio: "post non trovato" });
 	}
 
-	post.splice(post.indexOf(risultato));
+	lista.splice(lista.indexOf(risultato));
 
-	console.log(`post:${id} eliminato`, post);
+	console.log(`post:${id} eliminato`, lista);
 
 	return res.sendStatus(204);
     
 }
 
-//update
-router.put("/:id", (req, res) => {;
-console.log(`hai richiesto di AGGIORNARE (completamente) il post con id: ${req.params.id}`, req.body);
-});
-
-
-//store
-router.post ("/", (req, res) => {
-console.log("hai richiesto di CREARE un nuovo post", req.body);
-
-});
-
-
-//update
-router.put("/:id", (req, res) => {;
-console.log(`hai richiesto di AGGIORNARE (completamente) il post con id: ${req.params.id}`, req.body);
-});
 
 
 const controller = {

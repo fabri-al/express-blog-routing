@@ -1,4 +1,4 @@
-const post =
+const lista =
         [
             {
                 id: 1,
@@ -62,4 +62,4 @@ const post =
             }
         ];
 
-        module.exports = post
+        module.exports = lista
