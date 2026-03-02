@@ -1,5 +1,8 @@
 
 const post = require("../data/posts_data");
+const express= require("express");
+const router = express.Router();
+const postController = require("../controllers/postController")
 
 function index(req, res) {
     res.json(post);
@@ -11,11 +14,43 @@ function show(req, res) {
 }
 
 function store(req, res) {
-    res.send("hai richiesto di CREARE un nuovo post");
+
+	const newPost = {
+		
+        id: post[post.length-1].id +1,
+		titolo: req.body.titolo,
+		contenuto: req.body.contenuto,
+		
+	};
+    
+	post.push(newPost);
+    console.log("array:", post)
+
+	return res.status(201).json(newPost)
+    
 }
 
 function update(req, res) {
-    res.send(`hai richiesto di AGGIORNARE (completamente) il post con id: ${req.params.id}`);
+    
+    const id = Number(req.params.id);
+
+    if (isNaN(id)) {
+        
+        return res.status(400).json({errore: "user error", messaggio: "id non valido"})
+    }
+
+    const risultato = post.find(post => post.id == id);
+
+    if (!risultato) {
+        return res.status(404).json({ errore: "non trovato", messaggio: "post non trovato"});
+    }
+
+
+        risultato.titolo = req.body.titolo;
+		risultato.contenuto = req.body.contenuto;
+
+        return res.json(risultato);
+
 }
 
 function modify(req, res) {
@@ -27,14 +62,14 @@ function destroy(req, res) {
     const id = Number(req.params.id);
 
     if (isNaN(id)) {
-        return red.status(400).json({ errore: "user error", messaggio: "id non valido" });
+        return res.status(400).json({ errore: "user error", messaggio: "id non valido" });
     }
 
     const risultato = post.find(post => post.id == id);
     
     if (!risultato) {
         
-        return res.status(400).json({ errore: "non trovato", messaggio: "post non trovato" });
+        return res.status(404).json({ errore: "non trovato", messaggio: "post non trovato" });
 	}
 
 	post.splice(post.indexOf(risultato));
@@ -43,10 +78,25 @@ function destroy(req, res) {
 
 	return res.sendStatus(204);
     
-
-
-  /*   res.send(`hai richiesto di CANCELLARE il post con id: ${req.params.id}`); */
 }
+
+//update
+router.put("/:id", (req, res) => {;
+console.log(`hai richiesto di AGGIORNARE (completamente) il post con id: ${req.params.id}`, req.body);
+});
+
+
+//store
+router.post ("/", (req, res) => {
+console.log("hai richiesto di CREARE un nuovo post", req.body);
+
+});
+
+
+//update
+router.put("/:id", (req, res) => {;
+console.log(`hai richiesto di AGGIORNARE (completamente) il post con id: ${req.params.id}`, req.body);
+});
 
 
 const controller = {
