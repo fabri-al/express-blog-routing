@@ -8,11 +8,14 @@ function index(req, res) {
     
     let risultato = lista;
 
+   
    /*  provaMiddleware.perErrore(); */
 
     if (req.query.tags) {
         risultato = lista.filter(post => post.tags.includes(req.query.tags));
     }
+
+    res.json(risultato);
 }
 
 function show(req, res) {
